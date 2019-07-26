@@ -25,14 +25,14 @@ resource "azurerm_postgresql_server" "pgsrv" {
     geo_redundant_backup  = "Disabled"
   }
 
-  administrator_login          = "sqladmin"
+  administrator_login          = "postgres"
   administrator_login_password = "Pa$$w0rd"
   version                      = "10.0" # version 10.2 is not supported by TF
   ssl_enforcement              = "Enabled"
 }
 
-resource "azurerm_postgresql_database" "worlddb" {
-  name                = "worlddb"
+resource "azurerm_postgresql_database" "db" {
+  name                = "db"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   server_name         = "${azurerm_postgresql_server.pgsrv.name}"
   charset             = "UTF8"
