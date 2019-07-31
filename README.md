@@ -28,11 +28,11 @@ This project demostrates best practices on administrating Azure Databases for Po
 
 ## Next Steps
 
-- PostgreSQL best practice
+- APG best practice
 
 ## Gotchas
 
-- Cannot disable all table triggers in APG (`DISABLE TRIGGER ALL`)
+- Cannot disable all table triggers in APG (`DISABLE TRIGGER ALL`) through JDBC
   - "The PostgreSQL superuser attribute is assigned to the azure_superuser, which belongs to the managed service. You do not have access to this role." [reference](https://docs.microsoft.com/en-us/azure/postgresql/concepts-servers#managing-your-server)
 
 - Cannot run SQL scripts with `COPY FROM stdin`
