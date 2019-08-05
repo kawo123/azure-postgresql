@@ -53,3 +53,10 @@
 
 - In-region read replica (async replication) for improving and scaling read-intensive workload ([ref](https://docs.microsoft.com/en-us/azure/postgresql/concepts-read-replicas))
 - Uses PG physical replication (as opposed to logical replication)
+
+### Migration
+- Methods
+  - Pg_dump and pg_restore with dump file ([ref](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-using-dump-and-restore))
+  - Pg_dump and psql with SQL script ([ref](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-using-export-and-import))
+  - [Online migration using DMS](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-online) ([tutorial](https://docs.microsoft.com/en-us/azure/dms/tutorial-postgresql-azure-postgresql-online))
+    - [Known issues and workarounds](https://docs.microsoft.com/en-us/azure/dms/known-issues-azure-postgresql-online) for Online APG migration
