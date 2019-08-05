@@ -17,3 +17,4 @@ GRANT CONNECT ON DATABASE db TO db_user;
 --
 -- To validate new roles and privileges, run `\du` through psql
 --
+
