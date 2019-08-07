@@ -23,8 +23,8 @@ This project demostrates best practices on administrating Azure Databases for Po
   - Navigate to "azure-pg-pgsrv" -> "Connection Security" -> Click "Add Client IP" -> Click "Save"
 
 - In `./database`:
-  - Run `psql -f pagila.sql -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d db` to populdate the database
-
+  - For `pagila` database, run `psql -f pagila.sql -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d db` to populate the database
+  - For `dvdrental` database, run `pg_restore -c -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d dvdrental -v "./dvdrental.tar" -W`
 
 ## Next Steps
 

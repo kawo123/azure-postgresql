@@ -18,3 +18,245 @@ GRANT CONNECT ON DATABASE db TO db_user;
 -- To validate new roles and privileges, run `\du` through psql
 --
 
+--
+-- 2. Create Tables
+--
+
+CREATE TABLE dogs (
+	dog_id serial PRIMARY KEY,
+	name varchar(255),
+	age integer NOT NULL,
+	weight integer NOT NULL
+);
+
+
+--
+-- 3. Insert/Update/Delete Rows
+--
+
+insert into dogs (name, age, weight) values
+	('Rover', 3, 35),
+	('Cardie', 4, 37),
+	('Dunkin', 3, 39);
+
+-- sanity check table 'dogs'
+select * from dogs;
+
+update dogs
+set age = 4
+where name = 'Rover';
+
+-- sanity check table 'dogs' and note changes
+select * from dogs;
+
+delete from dogs
+where dog_id = 2;
+
+-- sanity check table 'dogs' and note deletion
+select * from dogs;
+
+
+--
+-- 4. Select
+--
+
+select * from customer;
+
+select film_id, title, rental_rate from film;
+
+select distinct rental_rate from film;
+
+--
+-- 5. Filtering (Where)
+--
+
+select film_id
+	, title
+	, rental_rate
+	, rating
+from film
+where rental_rate = 0.99;
+
+select film_id
+	, title
+	, rental_rate
+	, rating
+from film
+where rental_rate = 0.99
+and rating = 'G';
+
+
+--
+-- 6. Count
+--
+
+select count(*)
+from address;
+
+-- Counting on column doesn't include NULL
+select count(address2)
+from address;
+
+select count(first_name)
+from customer;
+
+select count(distinct first_name)
+from customer;
+
+--
+-- 7. Order By
+--
+
+select * 
+from customer
+order by last_name;
+
+select * 
+from customer
+order by last_name desc;
+
+select * 
+from customer
+order by last_name asc;
+
+--
+-- 8. Conditional Clause
+--
+
+select customer_id
+	, first_name
+	, last_name
+from customer
+where customer_id
+between 1 
+and 10
+order by customer_id;
+
+select customer_id
+	, first_name
+	, last_name
+from customer
+where customer_id
+not between 1 
+and 100
+order by customer_id;
+
+select first_name
+	, last_name
+from customer
+where first_name
+like 'A%'
+order by first_name desc;
+
+select first_name
+	, last_name
+from customer
+where first_name
+like 'Am_'
+order by first_name asc;
+
+select first_name
+	, last_name
+from customer
+where first_name
+in ('John', 'Mary', 'Tim')
+order by first_name asc;
+
+--
+-- 9. Mathematical functions
+--
+
+select 
+	min(rental_rate) as min_rental
+	, max(rental_rate) as max_rental
+from film;
+
+select * 
+from film
+where rental_rate = (
+	select max(rental_rate)
+	from film
+)
+order by film_id;
+
+select round(max(rental_rate))
+from film;
+
+select round(4.123947, 1);
+
+select round(4.123947, 2);
+
+select round(4.123947, 3);
+
+select 
+	sum(amount)
+	, count(amount)
+	, avg(amount)
+	, round(var_pop(amount), 2) rvar
+	, round(stddev_pop(amount), 2) rstd
+from payment;
+
+
+--
+-- 10. Join
+--
+
+select customer_id
+	, sum(amount)
+from payment
+group by customer_id
+order by customer_id;
+
+select customer_id
+	, sum(amount)
+from payment
+where customer_id
+not between 1
+and 10
+group by customer_id
+having sum(amount) > 100
+order by customer_id;
+
+select customer_id
+	, sum(amount)
+from payment
+where customer_id
+not between 1
+and 10
+group by customer_id
+having sum(amount) > 100
+order by customer_id
+limit 5;
+
+select
+	f.film_id
+	, f.title
+	, i.inventory_id
+from
+	film as f
+inner join
+	inventory as i
+on
+	f.film_id = i.film_id
+--where
+--	i.film_id is null
+;
+
+select
+	f.film_id
+	, f.title
+	, i.inventory_id
+from
+	film as f
+left join
+	inventory as i
+on
+	f.film_id = i.film_id
+--where
+--	i.film_id is null
+;
+
+
+--
+-- 11. PG Table Type and Constraints
+--
