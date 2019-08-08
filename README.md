@@ -5,8 +5,7 @@ This project demostrates best practices on administrating Azure Databases for Po
 ## Pre-requisite
 
 - [Terraform for Azure](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/terraform-install-configure)
-- [Azure Data Studio](https://docs.microsoft.com/en-us/sql/azure-data-studio/download?view=sql-server-2017)
-  - Install PostgreSQL extension in Azure Data Studio
+- [DBeaver](https://dbeaver.io/)
 - [psql](https://www.postgresql.org/docs/10/app-psql.html)
 
 ## Getting Started
@@ -33,10 +32,6 @@ This project demostrates best practices on administrating Azure Databases for Po
 - In `./`:
   - Execute `pg_sample.sql` using `psql` or other PostgreSQL client (e.g. DBeaver)
   - Execute `azurepg.sql` using `psql` or other PostgreSQL client (e.g. DBeaver)
-
-## Next Steps
-
-- APG best practice
 
 ## Gotchas
 
