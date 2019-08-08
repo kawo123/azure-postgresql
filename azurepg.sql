@@ -18,6 +18,7 @@ GRANT CONNECT ON DATABASE db TO db_user;
 -- To validate new roles and privileges, run `\du` through psql
 --
 
+
 --
 -- 2. Create Tables
 --
@@ -103,6 +104,7 @@ from customer;
 select count(distinct first_name)
 from customer;
 
+
 --
 -- 7. Order By
 --
@@ -118,6 +120,7 @@ order by last_name desc;
 select * 
 from customer
 order by last_name asc;
+
 
 --
 -- 8. Conditional Clause
@@ -161,6 +164,7 @@ from customer
 where first_name
 in ('John', 'Mary', 'Tim')
 order by first_name asc;
+
 
 --
 -- 9. Mathematical functions
@@ -258,5 +262,47 @@ on
 
 
 --
--- 11. PG Table Type and Constraints
+-- 11. Explain/Analyze
 --
+
+explain
+analyze
+select *
+from film;
+
+explain
+analyze
+select * 
+from film
+where rental_rate > 0.99;
+
+--
+-- 12. Index
+-- Optimizes query performance by reducing need for full table scan
+-- B-tree: balance tree, used for high cardinality columns
+-- Bitmap: low cardinality columns, read-intensive workload, created on the fly when beneficial
+--         Pro: optimizes bitwise filtering
+--         Con: index update is slow
+-- Hash: used for equality, comparable performance as B-tree, discouraged by PostsgreSQL communities (https://www.postgresql.org/docs/9.1/indexes-types.html)
+--       Pro: index size is smaller, may fit in memory
+-- PG-specific indexes: GIST, SP-GIST, GIN, BRIN
+-- GIST: generalized search tree; framework for implementing custom indexes
+-- SP-GIST: space-partitioned GIST; used for nonbalanced data structures
+-- GIN: text indexing; faster lookup but slower build than GIST; 2-3x larger than GIST
+-- BRIN: Block range indexing; used for large data sets; divides data into ordered blocks
+--
+
+create index idx_rental_customer_id on rental(customer_id);
+
+explain
+analyze
+select *
+from rental;
+
+explain
+analyze
+select * 
+from rental
+where customer_id > 500;
+
+drop index idx_rental_customer_id;
