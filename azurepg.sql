@@ -109,15 +109,15 @@ from customer;
 -- 7. Order By
 --
 
-select * 
+select *
 from customer
 order by last_name;
 
-select * 
+select *
 from customer
 order by last_name desc;
 
-select * 
+select *
 from customer
 order by last_name asc;
 
@@ -131,7 +131,7 @@ select customer_id
 	, last_name
 from customer
 where customer_id
-between 1 
+between 1
 and 10
 order by customer_id;
 
@@ -140,7 +140,7 @@ select customer_id
 	, last_name
 from customer
 where customer_id
-not between 1 
+not between 1
 and 100
 order by customer_id;
 
@@ -170,12 +170,12 @@ order by first_name asc;
 -- 9. Mathematical functions
 --
 
-select 
+select
 	min(rental_rate) as min_rental
 	, max(rental_rate) as max_rental
 from film;
 
-select * 
+select *
 from film
 where rental_rate = (
 	select max(rental_rate)
@@ -192,7 +192,7 @@ select round(4.123947, 2);
 
 select round(4.123947, 3);
 
-select 
+select
 	sum(amount)
 	, count(amount)
 	, avg(amount)
@@ -272,7 +272,7 @@ from film;
 
 explain
 analyze
-select * 
+select *
 from film
 where rental_rate > 0.99;
 
@@ -301,8 +301,57 @@ from rental;
 
 explain
 analyze
-select * 
+select *
 from rental
 where customer_id > 500;
 
 drop index idx_rental_customer_id;
+
+--
+-- 13. Partitioning
+-- Large tables are difficult to query efficiently even with indexes
+-- Horizontal Partitioning: split table by rows into partitions; Pro: limit scans to subset of partitions; commonly used in DW, timeseries db, etc
+-- Vertical Partitioning: split columns into multiple tables; Pro: reduce I/O; commonly used in DW, data w. many attributes, etc.
+-- Range Partition: parition on range (e.g. date, numeric range, alphabetical range)
+-- List Partition: partiton on list of values
+-- Hash Partition: partition using modulo (available on PG 11+)
+--
+
+create table iot_measurement(
+	location_id int not null
+	, measure_date date not null
+	, temp_celsius int
+	, rel_humidity_pct int
+) partition by range (measure_date);
+
+create table iot_measurement_wk1_2019
+partition of iot_measurement
+for values from ('2019-01-01') to ('2019-01-08');
+
+create table iot_measurement_wk2_2019
+partition of iot_measurement
+for values from ('2019-01-08') to ('2019-01-15');
+
+--
+-- 14. Materialized View
+-- Pre-computed queries; update to source requires update to materialized view
+-- Pro: usedful when query time is more important than storage space
+--
+
+create materialized view mv_film_inventory as
+select
+	f.film_id
+	, f.title
+	, i.inventory_id
+from
+	film as f
+inner join
+	inventory as i
+on
+	f.film_id = i.film_id;
+
+select * from mv_film_inventory;
+
+refresh materialized view mv_film_inventory;
+
+drop materialized view mv_film_inventory;
