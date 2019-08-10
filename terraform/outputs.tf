@@ -12,6 +12,10 @@ output "administrator_user" {
   value = "${azurerm_postgresql_server.pgsrv.administrator_login}"
 }
 
-output "db_name" {
-  value = "${azurerm_postgresql_database.db.name}"
+output "db_dvdrental_name" {
+  value = "${azurerm_postgresql_database.dvdrental.name}"
+}
+
+output "db_pagila_name" {
+  value = "${azurerm_postgresql_database.pagila.name}"
 }

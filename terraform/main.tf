@@ -13,9 +13,9 @@ resource "azurerm_postgresql_server" "pgsrv" {
   resource_group_name = "${azurerm_resource_group.rg.name}"
 
   sku {
-    name     = "B_Gen5_1"
-    capacity = 1
-    tier     = "Basic"
+    name     = "GP_Gen5_2"
+    capacity = 2
+    tier     = "GeneralPurpose"
     family   = "Gen5"
   }
 
@@ -31,8 +31,16 @@ resource "azurerm_postgresql_server" "pgsrv" {
   ssl_enforcement              = "Enabled"
 }
 
-resource "azurerm_postgresql_database" "db" {
-  name                = "db"
+resource "azurerm_postgresql_database" "dvdrental" {
+  name                = "dvdrental"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  server_name         = "${azurerm_postgresql_server.pgsrv.name}"
+  charset             = "UTF8"
+  collation           = "English_United States.1252"
+}
+
+resource "azurerm_postgresql_database" "pagila" {
+  name                = "pagila"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   server_name         = "${azurerm_postgresql_server.pgsrv.name}"
   charset             = "UTF8"
