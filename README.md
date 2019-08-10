@@ -20,18 +20,26 @@ This project demostrates best practices on administrating Azure Databases for Po
 
 - Through Portal:
   - Allow connection from your client to APG
-    - Navigate to "azure-pg-pgsrv" -> "Connection Security" -> Click "Add Client IP" -> Click "Save"
+    - Navigate to "azure-pg-pgsrv" -> Select "Connection Security" -> Click "Add Client IP" -> Click "Save"
   - Enable Query Store
-    - Navigate to "azure-pg-pgsrv" -> "Server Parameters" -> Search for `pg_qs.query_capture_mode` -> Select "TOP"
-    - Navigate to "azure-pg-pgsrv" -> "Server Parameters" -> Search for `pgms_wait_sampling.query_capture_mode` -> Select "ALL"
+    - Navigate to "azure-pg-pgsrv" -> Select "Server Parameters" -> Search for `pg_qs.query_capture_mode` -> Select "TOP"
+    - Navigate to "azure-pg-pgsrv" -> Select "Server Parameters" -> Search for `pgms_wait_sampling.query_capture_mode` -> Select "ALL"
 
 - In `./database`:
-  - For `pagila` database, run `psql -f pagila.sql -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d db` to populate the database
+  - For `pagila` database, run `psql -f pagila.sql -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d pagila` to populate the database
   - For `dvdrental` database, run `pg_restore -c -h <apg-server-name>.postgres.database.azure.com -U <apg-username>@<apg-server-name> -d dvdrental -v "./dvdrental.tar" -W`
 
 - In `./`:
-  - Execute `pg_sample.sql` using `psql` or other PostgreSQL client (e.g. DBeaver)
-  - Execute `azurepg.sql` using `psql` or other PostgreSQL client (e.g. DBeaver)
+  - Execute `pg_sample.sql` using `psql` or other PostgreSQL client (e.g. DBeaver) against `dvdrental` database
+  - Execute `azurepg.sql` using `psql` or other PostgreSQL client (e.g. DBeaver) against `azure_sys` database
+
+- Through Portal:
+  - Access "Query Performance Insight"
+    - Navigate to "azure-pg-pgsrv" -> Select "Query Performance Insight" -> Select "Long running queries" or "Wait statistics" to view appropriate metrics
+  - Access "Performance Recommendations"
+    - Navigate to "azure-pg-pgsrv" -> Select "Performance Recommendations" -> Click "Analyze" -> Select desired database for analysis
+  - Enable "Advanced Threat Protection"
+    - Navigate to "azure-pg-pgsrv" -> Select "Advanced Threat Protection (Preview)" -> Switch "Advanced Threat Protection" to "On" -> Enter email addresses (optional) -> Click "Save"
 
 ## Gotchas
 
