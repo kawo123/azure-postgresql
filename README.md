@@ -1,6 +1,6 @@
 # Azure PostgreSQL (APG)
 
-This project demostrates best practices on administrating Azure Databases for PostgreSQL
+This project demostrates best practices on administrating Azure Databases for PostgreSQL. For more information, please see [APG Single Server](./notes/single_server.md), [APG Hyperscale](./notes/hyperscale.md), and [APG Best Practice](./notes/best_practice.md). 
 
 ## Pre-requisite
 
