@@ -55,8 +55,14 @@
 - Uses PG physical replication (as opposed to logical replication)
 
 ### Migration
+
 - Methods
   - Pg_dump and pg_restore with dump file ([ref](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-using-dump-and-restore))
   - Pg_dump and psql with SQL script ([ref](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-using-export-and-import))
   - [Online migration using DMS](https://docs.microsoft.com/en-us/azure/postgresql/howto-migrate-online) ([tutorial](https://docs.microsoft.com/en-us/azure/dms/tutorial-postgresql-azure-postgresql-online))
     - [Known issues and workarounds](https://docs.microsoft.com/en-us/azure/dms/known-issues-azure-postgresql-online) for Online APG migration
+    - DMS service needs to have access to the source and destination databases
+    - DMS currently doesn't support schema replication for PostgreSQL. Schema replication has to be done manually
+    - The version needs to be supported and match for the source, DMS and Azure target. You are restricted to the supported versions of Azure database for PostgreSQL as well as DMS supported versions for PostgreSQL source database.
+    - DMS execution uses a "replication" connection to the database. This requires both connections to be facilitated in the pg_hba.conf on-premises configuration file.
+    - DMS establishes a replication which takes up a replication slot.  After the move if you want to delete the database you will need to remove this replication slot.
