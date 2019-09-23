@@ -3,7 +3,8 @@
 ## General
 
 - Applications should handle transient error (network hiccup, upgrade) with exponential backoff ([ref](https://docs.microsoft.com/en-us/azure/postgresql/concepts-connectivity))
-- Leverage connection pooling when application is interacting with APG (e.g. [PgBouncer](https://wiki.postgresql.org/wiki/PgBouncer))
+- Leverage query caching (e.g. Pgpool) for read intensive application ([ref](https://techcommunity.microsoft.com/t5/Azure-Database-for-PostgreSQL/Improve-Performance-of-Read-Intensive-Workloads-on-Azure-DB-for/ba-p/743860))
+- Leverage connection pooling when application is interacting with APG (e.g. [PgBouncer](https://wiki.postgresql.org/wiki/PgBouncer), Pgpool)
   - In PostgreSQL, establishing a connection is an expensive operation requiring forking of the OS process and a new memory allocation for the connection. Connection pooling helps by reusing existing connections ([ref](https://azure.microsoft.com/en-us/blog/performance-best-practices-for-using-azure-database-for-postgresql-connection-pooling/))
 - Enable Autovacuum on update/delete-intensive workloads ([ref](https://docs.microsoft.com/en-us/azure/postgresql/howto-optimize-autovacuum))
   - Improves I/O
